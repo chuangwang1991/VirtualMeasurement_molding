@@ -29,16 +29,26 @@ http://www.industrial-bigdata.com/Title
 我们最终方案选择模型Lightgbm，数据缺失情况不严重，因此对数据中缺失及单一值进行删除，特征构造整体思路是充分利用官方所提供数据，并创建部分衍生特征来提高预测精度，特征创建部分，因为机台工艺参数仅在参数变化时记录，条目较少，无法反应尺寸波动情况，因此利用这部分数据对其他生产数据进行工况划分和打标，传感器高频数据尝试过按照工艺段抽取上千维特征，但模型过拟合较严重，最终对传感器高频数据只取均值，鲁棒性较强，并将训练集中的尺寸中位数作为输入特征，之后对于特性根据重要性和分布筛选，从500多维特征中进行筛选，最终使用22维特征。
 最终初赛得分，total:2.872543877e+04; size1:2.264462354e+04; size2:4.407043113e+03; size3:1.673772117e+03
 最终决赛得分，total:3.132480968e+04; size1:7.591678629e+03; size2:1.837020916e+04; size3:5.362921897e+03
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84.png)
 
-插入 技术架构图
+
 数据EDA
 机台工艺参数，离散数据，且只在参数发生变化时记录
-![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE-sensor1.png)
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E6%9C%BA%E5%8F%B0%E5%B7%A5%E8%89%BA%E5%8F%82%E6%95%B0.png)
+
 成型机状态数据每模次产品对应1条，分段连续波动
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E6%88%90%E5%9E%8B%E6%9C%BA%E7%8A%B6%E6%80%81%E5%8F%82%E6%95%B0.png)
+
 
 传感器数据，每模次对应1个csv，共22条传感器记录
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE-sensor1.png)
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE.png)
+
 
 目标尺寸数据，分段波动
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E5%B0%BA%E5%AF%B8%E6%95%B0%E6%8D%AE.png)
+
+
 
 特征构造
 tips 1
@@ -50,6 +60,10 @@ tips 3
 之后在答辩中，发现前几名对于只对保压，冷却等重点阶段做特征提取，能够发现较好的特征，因此可能是我之前做法抽取特征过多，筛选过程做的不好所致；
 tips 4
 特征筛选，在早期上千维特征时，特征先使用重要性和基于模型重要性方法筛选，最终筛选方法为重要性和分布性方法，即先删除特征重要性低的特征，再删除测试集和训练集上特征分布差异大的特征，分布性筛选对于提高模型分数非常重要；
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E5%88%86%E5%B8%83%E8%89%AF%E5%A5%BD.png)
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E5%88%86%E5%B8%83%E8%BE%83%E5%B7%AE.png)
+
+
 
 模型验证
 对于最终选择的22列特征，使用lgbm单模型即可得e4量级得分，使用模型融合时，对尺寸中位数特征缺失值使用前值填充，分数从e4次方降低至e6，判断是出现了过拟合，最终选择单模型。
