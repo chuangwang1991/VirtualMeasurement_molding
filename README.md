@@ -33,7 +33,7 @@ http://www.industrial-bigdata.com/Title
 插入 技术架构图
 数据EDA
 机台工艺参数，离散数据，且只在参数发生变化时记录
-![Image text] https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE-sensor1.png
+![Image text](https://github.com/chuangwang1991/VirtualMeasurement_molding/blob/main/pics/%E4%BC%A0%E6%84%9F%E5%99%A8%E6%95%B0%E6%8D%AE-sensor1.png)
 成型机状态数据每模次产品对应1条，分段连续波动
 
 传感器数据，每模次对应1个csv，共22条传感器记录
